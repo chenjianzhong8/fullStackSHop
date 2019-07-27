@@ -1,0 +1,73 @@
+  <app-page-title title="Login / Register Account" [children]="[{title: 'Account', link: '/account'}, {title: 'Login / Register'}]"></app-page-title>
+
+  <!-- Page Content-->
+  <div class="container padding-bottom-3x mb-2">
+    <div class="row">
+      <div class="col-md-6">
+        <form class="login-box" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <h3 class="margin-bottom-1x">Login</h3>
+          <div class="form-group input-group" [ngClass]="{'has-danger': !loginForm.get('username').valid && loginForm.get('username').touched}">
+            <input class="form-control" formControlName="username" type="text" placeholder="user name" required="">
+           
+            <div *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched" class="form-control-feedback">
+              Be sure to enter a valid, existing user name.
+            </div>
+          </div>
+          <div class="form-group input-group" [ngClass]="{'has-danger': !loginForm.get('password').valid && loginForm.get('password').touched}">
+            <input class="form-control" formControlName="password" type="password" placeholder="Password" required="">
+           
+            <div *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched" class="form-control-feedback">
+              The entered password seems to be wrong..
+            </div>
+          </div>
+          <div class="text-center text-sm-right">
+            <button [disabled]="!loginForm.valid"class="btn btn-primary margin-bottom-none" type="submit">Login</button>
+          </div>
+        </form>
+      </div>
+      <!--注册页面： register-->
+      <div class="col-md-6">
+        <div class="padding-top-3x hidden-md-up"></div>
+        <h3 class="margin-bottom-1x">No Account? Register</h3>
+        <p>Registration takes less than a minute but gives you full control over your orders.</p>
+        <form [formGroup]="registerForm" class="row" (ngSubmit)="onRegister()">
+            <div class="col-sm-6">
+                <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('username').valid && registerForm.get('username').touched}">
+                  <label for="username">User name</label>
+                  <input class="form-control" formControlName="username" type="text" id="username" required>
+                </div>
+              </div>
+          <div class="col-sm-6">
+            <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('email').valid && registerForm.get('email').touched}">
+              <label for="reg-email">Emai Address</label>
+              <input class="form-control" formControlName="email" type="email" id="reg-email" required>
+            </div>
+          </div>
+          
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('password').valid && registerForm.get('password').touched}">
+                <label for="reg-pass">Password</label>
+                <input class="form-control" formControlName="password" type="password" id="reg-pass" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group" [ngClass]="{'has-danger': !registerForm.get('confirmPassword').valid && registerForm.get('confirmPassword').touched}">
+                <label for="reg-pass-confirm">Confirm Password</label>
+                <input class="form-control" formControlName="confirmPassword" type="password" id="reg-pass-confirm" required>
+              </div>
+            </div>
+
+          <div class="col-12 text-center text-sm-right">
+
+            <div class="form-group has-danger">
+              <div class="form-control-feedback">
+                {{ registerErrors }}
+              </div>
+            </div>
+
+            <button [disabled]="!registerForm.valid" class="btn btn-primary margin-bottom-none" type="submit">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

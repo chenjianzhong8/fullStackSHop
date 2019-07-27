@@ -1,0 +1,36 @@
+<section class="hero-slider" style="background-image: url(img/main-bg.jpg);">
+
+  <ngx-siema *ngIf="items && items.length > 0" [options]="options" class="large-controls dots-inside">
+
+    <ngx-siema-slide *ngFor="let item of items">
+      <div class="container padding-top-3x">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-5 col-md-6 padding-bottom-2x text-md-left text-center">
+            <div class="from-bottom">
+              <div class="h2 text-body text-normal mb-2 pt-1">{{ item.name }}</div>
+              <div class="h2 text-body text-normal mb-4 pb-1">starting at
+                <span class="text-bold"><app-price [product]="item"></app-price></span>
+              </div>
+            </div>
+            <a class="btn btn-primary scale-up delay-1" routerLink="/products/{{ item.id }}">Shop now</a>
+          </div>
+          <div class="col-md-6 padding-bottom-2x mb-3">
+            <div class="image-wrapper" [ngClass]="{'loading': !imagesLoaded.includes(item.imageFeaturedurl)}">
+              <img [hidden]="!imagesLoaded.includes(item.imageFeaturedurl)" class="d-block mx-auto" src="{{ item.imageFeaturedUrl }}" alt="{{ item.name }}" (load)="onImageLoad($event)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </ngx-siema-slide>
+  </ngx-siema>
+
+  <button type="button" class="hero-slider-prev" (click)="prev()"></button>
+  <button type="button" class="hero-slider-next" (click)="next()"></button>
+
+  <div class="hero-slider-dots">
+    <div *ngFor="let item of items; let i = index" class="hero-slider-dot" (click)="goTo(i)" [ngClass]="{active: currentSlide === i}">
+      <span></span>
+    </div>
+  </div>
+
+</section>
