@@ -7,7 +7,8 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messages/message.service';
-import { AuthService } from '../../auth/auth.service';
+
+import { AuthService } from "../../auth/auth.service";
 
 @Component({
   selector: 'app-register-login',
@@ -18,6 +19,8 @@ export class RegisterLoginComponent implements OnInit {
   public loginForm: FormGroup;
   public registerForm: FormGroup;
   public registerErrors: string;
+
+  myData: any = {};
 
   constructor(
     private authService: AuthService,
@@ -32,7 +35,7 @@ export class RegisterLoginComponent implements OnInit {
 
   private initLoginForm() {
     this.loginForm = new FormGroup({
-      username: new FormControl(null, [Validators.required]),
+      username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required)
     });
   }
@@ -58,13 +61,17 @@ export class RegisterLoginComponent implements OnInit {
       this.authService.register(obj)
         .subscribe(
           data => {
-            if (data['code'] == "0") {
+
+            this.myData = data;
+            if (this.myData.code == "0") {
+
               this.messageService.add('Account created successfully. Please login with your new credentials!');
-              this.loginForm.setValue({ username: this.registerForm.value.username, password: ''});
+
+              this.loginForm.setValue({ username: this.registerForm.value.username, password: '' });
               this.initRegisterForm();
             }
             else {
-              this.messageService.add(data['msg']);  // 注意： msg 是server 给的key
+              this.messageService.add(this.myData.msg);  // 注意： msg 是server 给的key
             }
           }
         );
@@ -81,13 +88,15 @@ export class RegisterLoginComponent implements OnInit {
     this.authService.login(obj)
       .subscribe(
         data => {
-          if (data['code'] == "0") {  // login successful
+          this.myData = data;
+          if (this.myData.code == "0") {  // login successful
             this.messageService.add('Login successful!');
             this.router.navigate(['/home']);
           }
           else
-            this.messageService.add(data['msg']);
+            this.messageService.add(this.myData.msg);
         }
       );
   }
+
 }
